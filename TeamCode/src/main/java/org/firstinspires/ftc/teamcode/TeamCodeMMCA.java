@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode; //    this is telling the robot what dat
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode; //importation of data about the robot's hardware
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp // this makes the robot controlled by a controller
@@ -29,12 +30,26 @@ public class TeamCodeMMCA extends LinearOpMode { // addition of the hardware's s
         waitForStart();
 
         boolean slowMode = false;
+        float x;
+        double y;
+        float rotate;
+        double drive;
+
+
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         while (opModeIsActive()) {
 
             telemetry.addData("Left Motor Power", leftFront.getPower());
             telemetry.addData("Right Motor Power", rightFront.getPower());
-            telemetry.addData("Right Motor Power", intake.getPower());
+            telemetry.addData("Intake power", intake.getPower());
             telemetry.addData("Status", "Running");
 
             telemetry.update();
@@ -55,23 +70,32 @@ public class TeamCodeMMCA extends LinearOpMode { // addition of the hardware's s
             else if (gamepad1.b){
                 slowMode = true;
             }
+
+            y = -gamepad1.left_stick_y;
+            x = gamepad1.left_stick_x;
+            rotate = gamepad1.right_stick_x;
+            drive = -gamepad1.right_stick_y;
+
             if (slowMode == false) {
-                leftFront.setPower(v1);
-                rightFront.setPower(v2);
-                leftRear.setPower(v3);
-                rightRear.setPower(v4);
+                leftFront.setPower(Math.min(Math.max(y + x + drive + rotate, -1), 1));
+                rightFront.setPower(Math.min(Math.max((y - x) + (drive - rotate), -1), 1));
+                leftRear.setPower(Math.min(Math.max((y - x) + drive + rotate, -1), 1));
+                rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1));
             }
             else if (slowMode == true) {
-                leftFront.setPower((v1)/2);
-                rightFront.setPower((v2)/2);
-                leftRear.setPower((v3)/2);
-                rightRear.setPower((v4)/2);
+                leftFront.setPower(Math.min(Math.max(y + x + drive + rotate, -1), 1)/2);
+                rightFront.setPower(Math.min(Math.max((y - x) + (drive - rotate), -1), 1)/2);
+                leftRear.setPower(Math.min(Math.max((y - x) + drive + rotate, -1), 1)/2);
+                rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1)/2);
             }
             if (gamepad1.x) {
                 intake.setPower(1);
             }
             else if (gamepad1.y) {
                 intake.setPower(-1);
+            }
+            else{
+                intake.setPower(0);
             }
         }
     }
