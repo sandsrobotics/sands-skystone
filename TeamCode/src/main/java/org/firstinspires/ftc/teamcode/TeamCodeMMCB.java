@@ -31,7 +31,7 @@ public class TeamCodeMMCB extends LinearOpMode { // addition of the hardware's s
         while (opModeIsActive()) {
 
             telemetry.addData("Left Motor Power", leftFront.getPower());
-            telemetry.addData("Right Motor Power", rightFront.getPower());
+            telemetry.addData("Right Motor Power qqqqqq", rightFront.getPower());
             telemetry.addData("Status", "Running");
 
             telemetry.update();

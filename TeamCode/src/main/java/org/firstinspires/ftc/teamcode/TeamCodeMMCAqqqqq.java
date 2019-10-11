@@ -5,26 +5,28 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp // this makes the robot controlled by a controller
 
-public class TeamCodeMMCA extends LinearOpMode { // addition of the hardware's software
+public class TeamCodeMMCAqqqqq extends LinearOpMode { // addition of the hardware's software
 
     private DcMotor leftFront;
     private DcMotor rightFront;
     private DcMotor leftRear;
     private DcMotor rightRear;
+    private Servo stick;
 
     private DcMotor intake;
 
     @Override
-
     public void runOpMode() {
         leftFront = hardwareMap.get(DcMotor.class, "left-front");
         rightFront = hardwareMap.get(DcMotor.class, "right-front");
         leftRear = hardwareMap.get(DcMotor.class, "left-rear");
-        rightRear = hardwareMap.get(DcMotor.class, "right-rear");
+        //rightRear = hardwareMap.get(DcMotor.class, "right-rear");
         intake = hardwareMap.get(DcMotor.class, "intake");
+        stick = hardwareMap.get(Servo.class, "stick");
 
 
         waitForStart();
@@ -42,14 +44,15 @@ public class TeamCodeMMCA extends LinearOpMode { // addition of the hardware's s
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         while (opModeIsActive()) {
 
             telemetry.addData("Left Motor Power", leftFront.getPower());
             telemetry.addData("Right Motor Power", rightFront.getPower());
-            telemetry.addData("Intake power", intake.getPower());
+            telemetry.addData("intake power", intake.getPower());
+            telemetry.addData("stick", stick.getPosition());
             telemetry.addData("Status", "Running");
 
             telemetry.update();
@@ -80,13 +83,13 @@ public class TeamCodeMMCA extends LinearOpMode { // addition of the hardware's s
                 leftFront.setPower(Math.min(Math.max(y + x + drive + rotate, -1), 1));
                 rightFront.setPower(Math.min(Math.max((y - x) + (drive - rotate), -1), 1));
                 leftRear.setPower(Math.min(Math.max((y - x) + drive + rotate, -1), 1));
-                rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1));
+        //        rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1));
             }
             else if (slowMode == true) {
                 leftFront.setPower(Math.min(Math.max(y + x + drive + rotate, -1), 1)/2);
                 rightFront.setPower(Math.min(Math.max((y - x) + (drive - rotate), -1), 1)/2);
                 leftRear.setPower(Math.min(Math.max((y - x) + drive + rotate, -1), 1)/2);
-                rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1)/2);
+          //      rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1)/2);
             }
             if (gamepad1.x) {
                 intake.setPower(1);
@@ -96,6 +99,14 @@ public class TeamCodeMMCA extends LinearOpMode { // addition of the hardware's s
             }
             else{
                 intake.setPower(0);
+            }
+
+
+            if (gamepad1.right_bumper) {
+                stick.setPosition(0);
+            }
+            else if (gamepad1.left_bumper) {
+                stick.setPosition(.5);
             }
         }
     }
