@@ -27,11 +27,13 @@ public class TeamCodeMMCB extends LinearOpMode { // addition of the hardware's s
         double tgtPower2 = 0;
         double tgtPower = 0;
         double NewIdea = 1;
+        double ServoPow = 0;
 
         while (opModeIsActive()) {
 
             telemetry.addData("Left Motor Power", leftFront.getPower());
             telemetry.addData("Right Motor Power qqqqqq", rightFront.getPower());
+            telemetry.addData("Servo pos", ServoPow);
             telemetry.addData("Status", "Running");
 
             telemetry.update();
@@ -57,7 +59,18 @@ public class TeamCodeMMCB extends LinearOpMode { // addition of the hardware's s
             else if (gamepad1.y) {
                 slideOut.setPower(-.5);
             }
-            //
+            else {
+                slideOut.setPower(0);
+            }
+            // servo
+            if (gamepad1.dpad_down) {
+                ServoPow = ServoPow + 1;
+            }
+            else if (gamepad1.dpad_up) {
+                ServoPow = ServoPow - 1;
+            }
+            Servo.setPosition(ServoPow);
+
         }
     }
 }

@@ -1,14 +1,10 @@
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.firstinspires.ftc.robotcore.external.JavaUtil;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -70,6 +66,7 @@ public class XY_to_ang extends LinearOpMode{
         double xPos = position.x;
         double yPos = position.y;
         double zPos = position.z;
+
        // double DriveSpeed;
        // double Rotate;
        // double v0;
@@ -78,6 +75,8 @@ public class XY_to_ang extends LinearOpMode{
 
         while (opModeIsActive()) {
 
+            Acceleration acceleration = imu.getAcceleration();
+            Velocity velocity = imu.getVelocity();
             position = imu.getPosition();
             xPos = position.x;
             yPos = position.y;
