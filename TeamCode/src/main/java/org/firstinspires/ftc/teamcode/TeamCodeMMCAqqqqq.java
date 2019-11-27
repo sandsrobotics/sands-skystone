@@ -24,7 +24,7 @@ public class TeamCodeMMCAqqqqq extends LinearOpMode { // addition of the hardwar
         leftFront = hardwareMap.get(DcMotor.class, "left-front");
         rightFront = hardwareMap.get(DcMotor.class, "right-front");
         leftRear = hardwareMap.get(DcMotor.class, "left-rear");
-        //rightRear = hardwareMap.get(DcMotor.class, "right-rear");
+        rightRear = hardwareMap.get(DcMotor.class, "right-rear");
         intake = hardwareMap.get(DcMotor.class, "intake");
         stick = hardwareMap.get(Servo.class, "stick");
 
@@ -44,7 +44,7 @@ public class TeamCodeMMCAqqqqq extends LinearOpMode { // addition of the hardwar
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         while (opModeIsActive()) {
@@ -83,13 +83,13 @@ public class TeamCodeMMCAqqqqq extends LinearOpMode { // addition of the hardwar
                 leftFront.setPower(Math.min(Math.max(y + x + drive + rotate, -1), 1));
                 rightFront.setPower(Math.min(Math.max((y - x) + (drive - rotate), -1), 1));
                 leftRear.setPower(Math.min(Math.max((y - x) + drive + rotate, -1), 1));
-        //        rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1));
+                rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1));
             }
             else if (slowMode == true) {
                 leftFront.setPower(Math.min(Math.max(y + x + drive + rotate, -1), 1)/2);
                 rightFront.setPower(Math.min(Math.max((y - x) + (drive - rotate), -1), 1)/2);
                 leftRear.setPower(Math.min(Math.max((y - x) + drive + rotate, -1), 1)/2);
-          //      rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1)/2);
+                rightRear.setPower(Math.min(Math.max(y + x + (drive - rotate), -1), 1)/2);
             }
             if (gamepad1.x) {
                 intake.setPower(1);
