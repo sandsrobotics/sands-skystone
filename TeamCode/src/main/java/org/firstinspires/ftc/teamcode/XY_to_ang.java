@@ -33,7 +33,7 @@ public class XY_to_ang extends LinearOpMode{
 
         leftMotor = hardwareMap.dcMotor.get("left");
         rightMotor = hardwareMap.dcMotor.get("right");
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -66,6 +66,7 @@ public class XY_to_ang extends LinearOpMode{
         double xPos = position.x;
         double yPos = position.y;
         double zPos = position.z;
+
 
        // double DriveSpeed;
        // double Rotate;
@@ -103,10 +104,8 @@ public class XY_to_ang extends LinearOpMode{
                     }
 
                 rot = (Pk * angleError/180) + (Dk * (angleError - lastError) / 180);
-
                 leftMotor.setPower((-(rot)) + ( - ( (gamepad1.right_stick_y) /2 ) ) );
                 rightMotor.setPower((rot) + ( - ( (gamepad1.right_stick_y) /2 ) ) );
-
                 lastError = angleError;
 
             }
