@@ -11,16 +11,21 @@ public class WhatIsThis extends LinearOpMode { // addition of the hardware's sof
 
     private DcMotor leftFront;
     private DcMotor rightFront;
+    private DcMotor MotorM;
     private Servo Servo;
     private Servo Servo2;
+    private Servo Front;
+
 
     @Override
 
     public void runOpMode() {
         leftFront = hardwareMap.get(DcMotor.class, "leftFront");
         rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+        MotorM = hardwareMap.get(DcMotor.class, "MotorM");
         Servo2 = hardwareMap.servo.get("right_handAsServo");
         Servo = hardwareMap.servo.get("left_handAsServo");
+        Front = hardwareMap.servo.get("Front");
 
         waitForStart();
 
@@ -29,13 +34,16 @@ public class WhatIsThis extends LinearOpMode { // addition of the hardware's sof
         double NewIdea = 1;
         double ServoPow = Servo.getPosition();
         double ServoPow2 = Servo2.getPosition();
+        double frontSM = Front.getPosition();
+        double Motorm = 0;
 
         while (opModeIsActive()) {
 
             telemetry.addData("Left Motor Power", leftFront.getPower());
-            telemetry.addData("Right Motor Power qqqqqq", rightFront.getPower());
+            telemetry.addData("Right Motor Power", rightFront.getPower());
             telemetry.addData("Servo pos", ServoPow);
             telemetry.addData("Status", "Running");
+            telemetry.addData("frontSM pos", frontSM);
 
             telemetry.update();
 
@@ -53,6 +61,18 @@ public class WhatIsThis extends LinearOpMode { // addition of the hardware's sof
             leftFront.setPower(tgtPower * NewIdea);
             tgtPower2 = -this.gamepad2.right_stick_y;
             rightFront.setPower(tgtPower2 * NewIdea);
+            // motorm
+            if (gamepad1.a) {
+                Motorm = 1;
+            }
+            else if (gamepad1.b) {
+                Motorm = 1;
+            }
+            else {
+                Motorm = 0;
+            }
+            MotorM.setPower(Motorm);
+
             // servo
 
             if (gamepad1.dpad_down) {
@@ -69,7 +89,6 @@ public class WhatIsThis extends LinearOpMode { // addition of the hardware's sof
             else if (ServoPow > 1){
                 ServoPow = 1;
             }
-
             if (ServoPow2 < 0){
                 ServoPow2 = 0;
             }
@@ -79,7 +98,27 @@ public class WhatIsThis extends LinearOpMode { // addition of the hardware's sof
 
             Servo.setPosition(ServoPow);
             Servo2.setPosition(ServoPow2);
+            // lick lick lick lick
 
+            if (gamepad1.y) {
+                frontSM = (frontSM + .01);
+            }
+            else if (gamepad1.x) {
+                frontSM = frontSM - .01;
+            }
+            else{
+                frontSM =  Front.getPosition();
+            }
+
+            if (frontSM < 0){
+                frontSM = 0;
+            }
+            else if (frontSM > 1){
+                frontSM = 1;
+            }
+
+            Front.setPosition(frontSM);
+            frontSM =  Front.getPosition();
         }
     }
 }
